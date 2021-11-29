@@ -110,9 +110,9 @@
                     this.flag = true
                 })
             },
-            handleDelete(id){
-                deleteTopic().then()
-            }
+            // handleDelete(id){
+                // deleteTopic().then()
+            // }
         }
     }
 </script>
