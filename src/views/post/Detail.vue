@@ -43,11 +43,15 @@
                     </div>
                 </nav>
             </el-card>
+            <!--评论区-->
+            <lv-comments :slug="topic.id"></lv-comments>
         </div>
         <!--作者信息-->
         <div class="column">
             <Author v-if="flag" :user="topicUser">
             </Author>
+            <!--推荐文章-->
+            <recommend v-if="flag" :topicId = "topic.id"></recommend>
         </div>
     </div>
 </template>
@@ -56,13 +60,15 @@
     import {mapGetters} from 'vuex'
     import {getTopicDetail} from "../../api/post";
     import Author from "./Author";
+    import Recommend from "./Recommend";
+    import LvComments from '../../components/Comment/Comments'
 
     import Vditor from 'vditor'
     import 'vditor/dist/index.css'
 
     export default {
         name: "TopicDetail",
-        components: {Author},
+        components: {Author,Recommend,LvComments},
         data(){
             return{
                 flag: false,
@@ -93,7 +99,7 @@
             async fetchTopic(){
                 getTopicDetail(this.$route.params.id).then( response => {
                     const {data} = response
-                    console.log(data)
+                    // console.log(data)
                     document.title = data.topic.title
 
                     this.topic = data.topic

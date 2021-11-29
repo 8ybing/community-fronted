@@ -10,6 +10,8 @@ import 'buefy/dist/buefy.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/app.css'
+//时间格式化
+import format from 'date-fns/format'
 
 import './permission'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -19,10 +21,15 @@ const dayjs = require('dayjs')
 
 //相对时间插件
 dayjs.extend(relativeTime)
+dayjs.locale('zh-cn')
 dayjs().locale('zh-cn').format()
 
+//设置全局可以使用dayjs
 Vue.prototype.dayjs = dayjs
 
+Vue.filter('date',(date) => {
+  return format(new Date(date),'yyyy-MM-dd')
+})
 
 Vue.config.productionTip = false
 

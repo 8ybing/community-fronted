@@ -27,5 +27,16 @@ export function getTopicDetail(id) {
             id: id
         }
     })
+}
+
+// 获取详情页文章推荐
+export function getRecommendTopics(id) {
+    return request({
+        url: '/post/recommend',
+        method: 'get',
+        params: {
+            topicId: id
+        }
+    })
 
 }
