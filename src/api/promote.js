@@ -6,5 +6,4 @@ export function getList() {
         url: '/promotion/all',
         method: 'get'
     })
-
 }

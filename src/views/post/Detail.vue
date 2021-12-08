@@ -32,7 +32,7 @@
                         </p>
                     </div>
                     <div v-if="token && user.id === topicUser.id" class="level-right">
-                        <router-link class="level-item" :to="{name: 'topic-edit',params: {id: topic.id}}">
+                        <router-link class="level-item" :to="{name: 'post-edit',params: {id: topic.id}}">
                             <span class="tag">编辑</span>
                         </router-link>
                         <a class="level-item">
@@ -58,7 +58,7 @@
 
 <script>
     import {mapGetters} from 'vuex'
-    import {getTopicDetail} from "../../api/post";
+    import {deleteTopic, getTopicDetail} from "../../api/post";
     import Author from "./Author";
     import Recommend from "./Recommend";
     import LvComments from '../../components/Comment/Comments'
@@ -110,9 +110,29 @@
                     this.flag = true
                 })
             },
-            // handleDelete(id){
-                // deleteTopic().then()
-            // }
+            handleDelete(id){
+                const _this = this
+                this.$confirm('确认删除吗？','提示',{
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(function () {
+                    deleteTopic(id).then(response => {
+                        const {code} = response
+                        // alert(message)
+                        if(code === 200){
+                            _this.$message.success('删除成功！')
+                            setTimeout(() => {
+                                _this.$router.push({path: '/'})
+                            },500)
+                        }
+                    })
+                }).catch(() => {
+                    this.$message.info("已取消删除！")
+                })
+
+
+            }
         }
     }
 </script>
