@@ -50,6 +50,12 @@ const routes = [
     meta: { title: '主题列表' }
   },
   {
+    name: 'search',
+    path: '/search',
+    component: () => import('../views/Search'),
+    meta: {title: '搜索'}
+  },
+  {
     path: '/404',
     name: '404',
     component: () => import('@/views/error/404'),

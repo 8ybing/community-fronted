@@ -40,7 +40,7 @@
                                     </div>
                                 </nav>
                             </div>
-                            <div class="media-right" />
+<!--                            <div class="media-right" ></div>-->
                         </article>
                     </el-tab-pane>
                     <el-tab-pane label="热门主题" name="hot">

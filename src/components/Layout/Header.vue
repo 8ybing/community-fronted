@@ -149,7 +149,7 @@
                     })
                     return false
                 }
-                this.$router.push({path: '/search?key=' + this.searchKey})
+                this.$router.push({path: '/search?keyword=' + this.searchKey})
             }
         }
     }
