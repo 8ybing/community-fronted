@@ -73,12 +73,12 @@
                         :label="user.username">
                     <b-navbar-item
                             tag="router-link"
-                            :to="{ path: `/member/${user.username}/home` }">🧘 个人中心
+                            :to="{ path: `/user/${user.username}/home` }">🧘 个人中心
                     </b-navbar-item>
                     <hr class="dropdown-divider">
                     <b-navbar-item
                             tag="router-link"
-                            :to="{ path: `/member/${user.username}/setting` }">
+                            :to="{ path: `/user/${user.username}/setting` }">
                         ⚙ 设置中心
                     </b-navbar-item>
                     <hr class="dropdown-divider">

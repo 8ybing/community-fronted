@@ -23,7 +23,7 @@
                                 <nav class="level has-text-grey is-mobile  is-size-7 mt-2">
                                     <div class="level-left">
                                         <div class="level-left">
-                                            <router-link class="level-item" :to="{ path: `/member/${item.username}/home` }">
+                                            <router-link class="level-item" :to="{ path: `/user/${item.username}/home` }">
                                                 {{ item.alias }}
                                             </router-link>
 
@@ -63,7 +63,7 @@
                                 <nav class="level has-text-grey is-mobile  is-size-7 mt-2">
                                     <div class="level-left">
                                         <div class="level-left">
-                                            <router-link class="level-item" :to="{ path: `/member/${item.username}/home` }">
+                                            <router-link class="level-item" :to="{ path: `/user/${item.username}/home` }">
                                                 {{ item.alias }}
                                             </router-link>
 

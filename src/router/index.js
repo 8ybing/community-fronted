@@ -56,6 +56,12 @@ const routes = [
     meta: {title: '搜索'}
   },
   {
+    name: 'user',
+    path: '/user/:username/home',
+    component: () => import('../views/user/Index'),
+    meta: {title: '个人中心'}
+  },
+  {
     path: '/404',
     name: '404',
     component: () => import('@/views/error/404'),
