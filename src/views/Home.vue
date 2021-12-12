@@ -1,7 +1,14 @@
 <template>
   <div>
-    <div class="box">
-      🔔{{billboard.content}}
+    <div class="box" v-show="billboard.flag">
+      <div class="level">
+        🔔{{billboard.content}}
+        <a @click="billboard.flag = false">
+          <span>
+            <i class="el-icon-close right"/>
+          </span>
+        </a>
+      </div>
     </div>
     <div class="columns">
       <div class="column is-three-quarters">
@@ -25,6 +32,7 @@
   data(){
     return{
       billboard: {
+        flag: false,
         content: ''
       }
     }
@@ -37,6 +45,13 @@
       getBillBoard().then((value) => {
         const {data} = value
         this.billboard = data
+        this.$notify({
+          title: '提示',
+          message: '🔔' + this.billboard.content,
+          offset:45,
+          duration: 1500
+          // position: 'top-left'
+        })
       })
     }
   }

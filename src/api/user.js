@@ -1,6 +1,6 @@
 import request from '../utils/request'
 
-//获取个人信息以及账户下的帖子信息
+//获取用户信息以及用户的帖子信息
 export function getUserInfoByName(username,pageNum,pageSize) {
     return request({
         url: '/ums/user/' + username,
@@ -10,5 +10,14 @@ export function getUserInfoByName(username,pageNum,pageSize) {
             pageNum: pageNum,
             pageSize: pageSize
         }
+    })
+}
+
+//更新用户信息
+export function updateUserInfo(user) {
+    return request({
+        url: '/ums/user/updateUserInfo',
+        method: 'post',
+        data: user
     })
 }

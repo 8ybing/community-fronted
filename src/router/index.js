@@ -61,6 +61,13 @@ const routes = [
     component: () => import('../views/user/Index'),
     meta: {title: '个人中心'}
   },
+    //用户设置
+  {
+    name: 'user-setting',
+    path: '/user/:username/setting',
+    component: () => import('../views/user/Setting'),
+    meta: {title: '设置'}
+  },
   {
     path: '/404',
     name: '404',

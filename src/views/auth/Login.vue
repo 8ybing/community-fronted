@@ -1,5 +1,5 @@
 <template>
-    <div class="box-card">
+    <div class="box-card is-mobile">
 <!--        <div class="columns is-half is-offset-one-quarter">-->
             <el-card shadow="" v-loading="loading">
                 <div slot="header" class="has-text-centered has-text-weight-bold">

@@ -7,7 +7,7 @@
                     <div class="media">
                         <div class="media-left">
                             <figure class="image is-96x96">
-                                <img :src="`https://cn.gravatar.com/avatar/${topicUser.id}?s=164&d=monsterid`" style="border-radius: 100px;">
+                                <img :src="`https://gravatar.loli.net/avatar/${topicUser.id}?s=164&d=monsterid`" style="border-radius: 100px;">
                             </figure>
                         </div>
                         <div class="media-content mt-1 ml-4">
@@ -30,11 +30,13 @@
             <el-card class="box-card" shadow="never">
                 <div slot="header">详细信息</div>
                 <div class="container">
-                    <p class="">文章数：   {{ topicUser.topicCount }}</p>
-                    <p class="">邮箱：   {{ topicUser.email }}</p>
-                    <p class="">论坛积分：   {{ topicUser.score }}</p>
-                    <p class="">职业：   {{ topicUser.bio }}</p>
-                    <p class="">加入时间：{{ dayjs(topicUser.createTime).format("YYYY-MM-DD") }}</p>
+                    <p class="mb-1">用户名：   {{ topicUser.username }}</p>
+                    <p class="mb-1">别名：   {{ topicUser.alias }}</p>
+                    <p class="mb-1">文章数：   {{ topicUser.topicCount }}</p>
+                    <p class="mb-1">邮箱：   {{ topicUser.email }}</p>
+                    <p class="mb-1">论坛积分：  <code>{{ topicUser.score }}</code> </p>
+                    <p class="mb-1">职业：   {{ topicUser.bio }}</p>
+                    <p class="mb-1">注册时间：{{ dayjs(topicUser.createTime).format("YYYY-MM-DD") }}</p>
 
                 </div>
             </el-card>
@@ -65,19 +67,27 @@
                                         <router-link class="level-item" :to="{ path: `/member/${item.username}/home` }">
                                             {{ item.alias }}
                                         </router-link>
-
                                         <span class="mr-1">发布于:{{ dayjs(item.createTime).format("YYYY-MM-DD") }}</span>
-
                                         <span v-for="(tag, index) in item.tags" :key="index" class="tag is-hidden-mobile is-success is-light mr-1">
                                                 <router-link :to="{ name: 'tag', params: { name: tag.name } }">
                                                     {{ "#" + tag.name }}
                                                 </router-link>
                                             </span>
-
                                         <span class="is-hidden-mobile">浏览:{{ item.view }}</span>
                                     </div>
                                 </div>
+                                <div v-if="token && user.id === topicUser.id" class="level-right">
+                                    <router-link class="level-item" :to="{name: 'post-edit',params: {id: item.id}}">
+                                        <span class="tag">编辑</span>
+                                    </router-link>
+                                    <a class="level-item">
+                                        <span class="tag" @click="handleDelete(item.id)">
+                                            删除
+                                        </span>
+                                    </a>
+                                </div>
                             </nav>
+
                         </div>
                     </article>
                 </div>
@@ -98,7 +108,6 @@
     import Pagination from "@/components/Pagination/Index";
     import {mapGetters} from 'vuex'
     import {deleteTopic} from "../../api/post";
-    import {isFollow} from "../../api/follow";
     import {getUserInfoByName} from "../../api/user";
 
     export default {
@@ -137,6 +146,28 @@
             },
             init(tab){
                 this.fetchUserInfo()
+            },
+            handleDelete(id){
+                const _this = this
+                this.$confirm('确认删除吗？','提示',{
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(function () {
+                    deleteTopic(id).then(response => {
+                        const {code} = response
+                        // alert(message)
+                        if(code === 200){
+                            _this.$message.success('删除成功！')
+                            setTimeout(() => {
+                                _this.$router.push({path: '/'})
+                            },500)
+                        }
+                    })
+                }).catch(() => {
+                    this.$message.info("已取消删除！")
+                })
+
             }
         }
     }

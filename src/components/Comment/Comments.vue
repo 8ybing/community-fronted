@@ -5,7 +5,7 @@
         <lv-comments-form :slug="slug" v-if="token" @loadComments="fetchComments"></lv-comments-form>
         <lv-comments-item
                 v-for="comment in comments"
-                :key="`comment-&{comment.id}`"
+                :key="comment.id"
                 :comment="comment">
         </lv-comments-item>
     </section>
@@ -47,6 +47,7 @@
                 // console.log(topic_id)
                 fetchCommentByTopicId(topic_id).then(response => {
                     const {data} = response
+                    // console.log(data)
                     this.comments = data
                 })
             }
