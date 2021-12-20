@@ -1,19 +1,19 @@
 <template>
-    <div class="box-card is-mobile">
+    <div>
 <!--        <div class="columns is-half is-offset-one-quarter">-->
-            <el-card shadow="" v-loading="loading">
+            <el-card shadow="never" v-loading="loading" class="box-card is-mobile">
                 <div slot="header" class="has-text-centered has-text-weight-bold">
                     用户登录
                 </div>
                 <div>
-                    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="70px" class="demo-ruleForm is-mobile">
                         <el-form-item label="用户名" prop="username">
-                            <el-input v-model="ruleForm.username" placeholder="请输入用户名" style="width: 400px">
+                            <el-input v-model="ruleForm.username" placeholder="请输入用户名" >
                             </el-input>
                         </el-form-item>
 
                         <el-form-item label="密码" prop="pass" >
-                            <el-input v-model="ruleForm.pass" type="password"show-password placeholder="请输入密码" style="width: 400px">
+                            <el-input v-model="ruleForm.pass" type="password"show-password placeholder="请输入密码" >
                             </el-input>
                         </el-form-item>
 
@@ -98,7 +98,8 @@
 <style scoped>
     .box-card {
         /*height: 300px;*/
-        width: 600px;
+        width: 100%;
         margin: 50px auto;
     }
 </style>
+

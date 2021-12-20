@@ -7,7 +7,8 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('@/views/Home')
+    component: () => import('@/views/Home'),
+    meta: {title: 'ICE BBS'}
   },
   {
     path: '/register',

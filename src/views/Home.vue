@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="box" v-show="billboard.flag">
+    <div class="box" v-show="this.billboard.flag">
       <div class="level">
         🔔{{billboard.content}}
         <a @click="billboard.flag = false">
@@ -39,19 +39,25 @@
   },
     created() {
     this.fetchBillboard()
+      //首次访问会有弹窗
+      sessionStorage.setItem('FirstVisit','1')
     },
     methods: {
     async fetchBillboard(){
       getBillBoard().then((value) => {
         const {data} = value
         this.billboard = data
-        this.$notify({
-          title: '提示',
-          message: '🔔' + this.billboard.content,
-          offset:45,
-          duration: 1500
-          // position: 'top-left'
-        })
+        if(sessionStorage.getItem('FirstVisit') == '1'){
+          this.$notify({
+            title: '提示',
+            message: '🔔' + this.billboard.content,
+            offset: 45,
+            duration: 1500
+            // position: 'top-left'
+          })
+          // alert(sessionStorage.getItem('FirstVisit'))
+          sessionStorage.setItem('FirstVisit','0')
+        }
       })
     }
   }

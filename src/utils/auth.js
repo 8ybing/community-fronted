@@ -18,7 +18,6 @@ export function removeToken() {
     return Cookies.remove(uToken)
 }
 
-
 export function removeAll() {
     return Cookies.Cookies.removeAll()
 }

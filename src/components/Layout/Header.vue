@@ -17,7 +17,8 @@
             <template slot="start">
                 <b-navbar-item
                         tag="router-link"
-                        :to="{ path: '/' }">🌐 主页
+                        :to="{ path: '/' }">
+                    <i class="el-icon-s-home"></i>主页
                 </b-navbar-item>
             </template>
 
@@ -36,7 +37,8 @@
                         <p class="control">
                             <b-button
                                     class="is-info"
-                                    @click="search()">检索
+                                    @click="search()">
+                                <i class="el-icon-search"></i>
                             </b-button>
                         </p>
                     </b-field>
