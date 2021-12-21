@@ -16,7 +16,7 @@ export function getUserInfoByName(username,pageNum,pageSize) {
 //更新用户信息
 export function updateUserInfo(user) {
     return request({
-        url: '/ums/user/updateUserInfo',
+        url: '/ums/user/update',
         method: 'post',
         data: user
     })

@@ -19,6 +19,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/zh-cn'
 const dayjs = require('dayjs')
 
+
 //相对时间插件
 dayjs.extend(relativeTime)
 dayjs.locale('zh-cn')

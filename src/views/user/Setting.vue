@@ -67,7 +67,7 @@
                         </el-form-item>
 
                         <el-form-item>
-                            <el-button type="primary" @click="submitForm('ruleForm')">立即修改</el-button>
+                            <el-button type="primary" @click="handleUpdateUserInfo('ruleForm')">立即修改</el-button>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -99,7 +99,7 @@
 </template>
 
 <script>
-    import {getUserInfoByName} from "../../api/user";
+    import {getUserInfoByName, updateUserInfo} from "../../api/user";
 
     export default {
         name: "Setting",
@@ -109,6 +109,7 @@
                 edit: true,
                 topicUser: {},
                 ruleForm: {
+                    id: '',
                     username: '',
                     alias: '',
                     mobile: '',
@@ -116,17 +117,17 @@
                 },
                 rules: {
                     username: [
-                        { required: true, message: '请输入要修改的用户名', trigger: 'change' },
+                        { required: false, message: '请输入要修改的用户名', trigger: 'change' },
                         { min: 3, max: 9, message: '长度在 3 到 9 个字符', trigger: 'change' }
                     ],
                     alias: [
-                        { required: true, message: '请输入要修改的别名', trigger: 'change' }
+                        { required: false, message: '请输入要修改的别名', trigger: 'change' }
                     ],
                     mobile: [
-                        { required: true, message: '请输入要修改的手机号', trigger: 'change' }
+                        { required: false, message: '请输入要修改的手机号', trigger: 'change' }
                     ],
                     email: [
-                        { required: true, message: '请输入要修改的邮箱', trigger: 'change' }
+                        { required: false, message: '请输入要修改的邮箱', trigger: 'change' }
                     ]
                 },
                 changePassForm: {
@@ -143,21 +144,22 @@
                 getUserInfoByName(this.$route.params.username).then( response => {
                     const {data} = response
                     // console.log(data)
-                    this.topicUser = data.user
-                    this.ruleForm.username = data.user.username
-                    // this.ruleForm = data.user
+                    this.topicUser = JSON.parse(JSON.stringify(data.user))
+                    this.ruleForm= data.user
                     console.log(this.topicUser)
                 })
             },
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        alert('submit!');
-                    } else {
-                        console.log('error submit!!');
-                        return false;
+            handleUpdateUserInfo(formName) {
+                updateUserInfo(this.ruleForm).then(response => {
+                    const {data,code,message} = response
+                    console.log(response)
+                    if(code === 200){
+                        this.$message.success('修改成功！')
+                        setTimeout( () => {
+                            this.fetchUserInfo()
+                        },1000)
                     }
-                });
+                })
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();

@@ -43,7 +43,7 @@
 <!--                            <div class="media-right" ></div>-->
                         </article>
                     </el-tab-pane>
-                    <el-tab-pane label="热门主题" name="hot">
+                    <el-tab-pane label="🔥热门主题" name="hot">
                         <article v-for="(item, index) in articleList" :key="index" class="media">
                             <div class="media-left">
                                 <figure class="image is-48x48">
