@@ -29,3 +29,4 @@ export function setDarkMode(mode) {
 export function getDarkMode() {
     return !(undefined === Cookies.get(darkMode) || 'false' === Cookies.get(darkMode))
 }
+

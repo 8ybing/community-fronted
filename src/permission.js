@@ -19,7 +19,6 @@ router.beforeEach(async (to,from,next) => {
 
     const hasToken = getToken();
 
-
     if(hasToken){
         if(to.path === '/login'){
             //如果已登录，再次访问登录页面自动跳转首页
@@ -30,8 +29,11 @@ router.beforeEach(async (to,from,next) => {
             await store.dispatch('user/getInfo')
             next()
         }
-    }else{
+    }else if(!to.meta.requireAuth){
         next()
+    }
+    else{
+        next('/login')
     }
 })
 

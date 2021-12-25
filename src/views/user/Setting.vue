@@ -77,18 +77,18 @@
                     密码修改
                 </div>
                 <div>
-                    <el-Form :model="changePassForm" label-width="70px">
+                    <el-Form :model="changePassForm" :rules="changePassRules" ref="changePassForm" label-width="90px">
                         <el-form-item label="原密码" prop="oldPass">
-                            <el-input v-model="changePassForm.oldPass" placeholder="请输入原密码"></el-input>
+                            <el-input v-model="changePassForm.oldPass" placeholder="请输入原密码" type="password" show-password></el-input>
                         </el-form-item>
                         <el-form-item label="新密码" prop="newPass">
-                            <el-input v-model="changePassForm.newPass" placeholder="请输入新密码"></el-input>
+                            <el-input v-model="changePassForm.newPass" placeholder="请输入新密码" type="password" show-password></el-input>
                         </el-form-item>
-                        <el-form-item label="确认密码" prop="rePass">
-                            <el-input v-model="changePassForm.oldPass" placeholder="请再次输入新密码"></el-input>
+                        <el-form-item label="确认密码" prop="renewPass">
+                            <el-input v-model="changePassForm.renewPass" placeholder="请再次输入新密码" type="password" show-password></el-input>
                         </el-form-item>
                         <el-form-item>
-                            <el-button type="primary" @click="submitForm('changePassForm')">立即修改</el-button>
+                            <el-button type="primary" @click="handleChangePass('changePassForm')">立即修改</el-button>
                         </el-form-item>
                     </el-Form>
 
@@ -99,11 +99,29 @@
 </template>
 
 <script>
-    import {getUserInfoByName, updateUserInfo} from "../../api/user";
+    import {getUserInfoByName, updateUserInfo,modifyPass} from "../../api/user";
 
     export default {
         name: "Setting",
         data(){
+            var validatePass = (rule,value,callback) => {
+                if(value === ''){
+                    callback(new Error('请输入新密码'));
+                }else if(value.toString().length < 6 || value.toString().length > 18){
+                    callback(new Error('密码长度为6-18个字符！'))
+                }else{
+                    callback();
+                }
+            };
+            var validatePass2 = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请再次输入密码'));
+                } else if (value !== this.changePassForm.newPass) {
+                    callback(new Error('两次输入密码不一致!'));
+                } else {
+                    callback();
+                }
+            };
             return{
                 readonly: true,
                 edit: true,
@@ -131,10 +149,21 @@
                     ]
                 },
                 changePassForm: {
+                    id: '',
                     oldPass: '',
-                    newPass: ''
+                    newPass: '',
+                    renewPass: ''
+                },
+                changePassRules: {
+                    oldPass: [{required: true,message: '请输入原密码',trigger: 'change'},
+                        { min: 6, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }],
+                    newPass: [{required: true,validator: validatePass,trigger: 'change'},
+                        { min: 6, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }],
+                    renewPass: [{required: true,validator: validatePass2,trigger: 'change'},
+                        { min: 6, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }]
                 }
             };
+
         },
         created() {
             this.fetchUserInfo()
@@ -146,6 +175,7 @@
                     // console.log(data)
                     this.topicUser = JSON.parse(JSON.stringify(data.user))
                     this.ruleForm= data.user
+                    this.changePassForm.id = data.user.id
                     console.log(this.topicUser)
                 })
             },
@@ -156,13 +186,41 @@
                     if(code === 200){
                         this.$message.success('修改成功！')
                         setTimeout( () => {
-                            this.fetchUserInfo()
+
                         },1000)
                     }
                 })
             },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
+            handleChangePass(formName){
+                this.$refs[formName].validate( (valid) => {
+                    if(valid){
+                        // if(this.changePassForm.oldPass === this.changePassForm.newPass){
+                        //     this.$message.error('原密码不能与新密码相同！')
+                        // }else if(this.changePassForm.newPass != this.changePassForm.renewPass){
+                        //     this.$message.error('密码两次输入不一致！')
+                        // }else{
+                            //提交修改密码
+                            // let obj = {
+                            //     id: this.changePassForm.id,
+                            //     oldPass: this.changePassForm.oldPass,
+                            //     newPass: this.changePassForm.newPass
+                            // }
+                            modifyPass(this.changePassForm).then( response => {
+                                const {code,data,message} = response
+                                console.log(data)
+                                if(code === 200){
+                                    this.$message.success(message)
+                                    setTimeout( () =>{
+                                        this.$refs[formName].resetFields();
+                                    },500)
+                                }else{
+                                    this.$message.warning(message)
+                                }
+                            })
+
+                        // }
+                    }
+                })
             }
         }
     }

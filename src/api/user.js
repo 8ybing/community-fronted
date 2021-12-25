@@ -21,3 +21,16 @@ export function updateUserInfo(user) {
         data: user
     })
 }
+
+//修改用户密码
+export function modifyPass(paramsMap) {
+    return request({
+        url: '/ums/user/updatepass',
+        method: 'post',
+        params: {
+            id: paramsMap.id,
+            oldPass: paramsMap.oldPass,
+            newPass: paramsMap.newPass
+        }
+    })
+}

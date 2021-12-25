@@ -34,7 +34,8 @@ const routes = [
     path: '/post/edit/:id',
     component: () => import('../views/post/Edit'),
     meta: {
-      title: '编辑'
+      title: '编辑',
+      requireAuth: true
     }
   },
   //详情

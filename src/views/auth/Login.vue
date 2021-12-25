@@ -1,12 +1,12 @@
 <template>
-    <div>
+    <div class="card" >
 <!--        <div class="columns is-half is-offset-one-quarter">-->
-            <el-card shadow="never" v-loading="loading" class="box-card is-mobile">
+            <el-card shadow="never" v-loading="loading" >
                 <div slot="header" class="has-text-centered has-text-weight-bold">
                     用户登录
                 </div>
                 <div>
-                    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="70px" class="demo-ruleForm is-mobile">
+                    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="70px" >
                         <el-form-item label="用户名" prop="username">
                             <el-input v-model="ruleForm.username" placeholder="请输入用户名" >
                             </el-input>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+
     export default {
         name: "Login",
         data() {
@@ -65,6 +66,7 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.loading = true
+
                         this.$store.dispatch("user/login",this.ruleForm)
                         .then(() => {
                             this.$message({
@@ -96,10 +98,12 @@
 </script>
 
 <style scoped>
-    .box-card {
-        /*height: 300px;*/
+    .card {
+        max-height: 300px;
+        max-width: 520px;
+        height: 100%;
         width: 100%;
-        margin: 50px auto;
+        margin: auto;
     }
 </style>
 

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="card">
         <el-card class="box-card" shadow="never">
             <div slot="header" align="center">🎉<span class="has-text-weight-bold">新用户注册</span></div>
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -115,9 +115,11 @@
 </script>
 
 <style scoped>
-    .box-card {
-        /*height: 300px;*/
+    .card {
+        max-height: 300px;
+        max-width: 520px;
+        height: 100%;
         width: 100%;
-        margin: 50px auto;
+        margin: auto;
     }
 </style>
