@@ -4,7 +4,7 @@
       <Header></Header>
     </div>
     <div class="container context">
-      <router-view :key="this.$route.fullPath"></router-view>
+      <router-view v-if="isRouterAlive" :key="this.$route.fullPath"></router-view>
     </div>
     <div >
       <Footer></Footer>
@@ -19,7 +19,25 @@
 
   export default {
     name: 'App',
-    components: {Header,Footer}
+    components: {Header,Footer},
+    provide(){
+      return{
+        reload: this.reload
+      }
+    },
+    data(){
+      return{
+        isRouterAlive: true
+      }
+    },
+    methods: {
+      reload () {
+        this.isRouterAlive = false;            //先关闭，
+        this.$nextTick(function () {
+          this.isRouterAlive = true;         //再打开
+        })
+      }
+    }
   }
 </script>
 

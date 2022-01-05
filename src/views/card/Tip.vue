@@ -8,8 +8,8 @@
                 <div class="has-text-left block" v-text="tip.content">
 
                 </div>
-                <div class="has-text-right mt-3 block">
-                    —{{dayjs(tip.time).format('YYYY年MM月DD日')}}
+                <div v-cloak class="has-text-right mt-3 block" v-text="'—' + tip.from">
+
                 </div>
             </div>
         </el-card>
@@ -45,7 +45,7 @@
                     const {data} = response
                     // console.log(data)
                     this.tip.content = data.content
-                    this.tip.time = data.date
+                    this.tip.from = data.from
                 })
             }
         }

@@ -5,22 +5,26 @@
                 <div slot="header">
                    个人信息
                 </div>
-                <div class="media">
-                    <div class="media-content">
+                <div class="columns media">
+                    <div class="column is-4-mobile media-content avatar" @click="changeAvatar()">
                         <figure class="image is-96x96">
-                            <img :src="`https://gravatar.loli.net/avatar/${topicUser.id}?s=164&d=monsterid`" style="border-radius: 100px;">
+                            <img :src="topicUser.avatar" style="border-radius: 100px;">
+                            <div id="edit-icon" >
+                                <i style="font-size: 30px" class="el-icon-edit edit"></i>
+                            </div>
                         </figure>
                     </div>
-                    <div class="media-content mt-1 ml-4">
-                        <span class="has-text-weight-semibold is-size-4">{{topicUser.username}}</span>
+                    <Avatar ref="avatar"></Avatar>
+                    <div class="column is-8-mobile media-content m-auto">
+                        <span class="has-text-weight-semibold is-size-4">{{topicUser.username}}</span><br>
                         <span class="is-size-7 has-text-grey"> @{{topicUser.alias}}</span>
                         <div class=" columns is-mobile mt-4">
                             <div class="column is-half">
-                                <code>{{topicUser.followCount}}</code>
+                                <strong>{{topicUser.followCount}}</strong>
                                 <p class="has-text-weight-bold">关注</p>
                             </div>
                             <div class="column is-half">
-                                <code>{{topicUser.followerCount}}</code>
+                                <strong>{{topicUser.followerCount}}</strong>
                                 <p class="has-text-weight-bold">粉丝</p>
                             </div>
                         </div>
@@ -32,7 +36,7 @@
                 <div slot="header">详细信息</div>
                 <div class="container">
                     <p class="mb-1">用户名：   {{ topicUser.username }}</p>
-                    <p class="mb-1">别名：   {{ topicUser.alias }}</p>
+                    <p class="mb-1">昵称：   {{ topicUser.alias }}</p>
                     <p class="mb-1">手机号：   {{ topicUser.mobile }}</p>
                     <p class="mb-1">文章数：   <code>{{ topicUser.topicCount }}</code></p>
                     <p class="mb-1">邮箱：   {{ topicUser.email }}</p>
@@ -54,8 +58,8 @@
                             <el-input v-model="ruleForm.username" :disabled="edit"></el-input>
                         </el-form-item>
 
-                        <el-form-item label="别名" prop="alias">
-                            <el-input v-model="ruleForm.alias" placeholder="请输入要修改的别名"></el-input>
+                        <el-form-item label="昵称" prop="alias">
+                            <el-input v-model="ruleForm.alias" placeholder="请输入要修改的昵称"></el-input>
                         </el-form-item>
 
                         <el-form-item label="手机号" prop="mobile">
@@ -100,9 +104,11 @@
 
 <script>
     import {getUserInfoByName, updateUserInfo,modifyPass} from "../../api/user";
+    import Avatar from "./Avatar"
 
     export default {
         name: "Setting",
+        components: {Avatar},
         data(){
             var validatePass = (rule,value,callback) => {
                 if(value === ''){
@@ -123,6 +129,7 @@
                 }
             };
             return{
+                dialogVisible: false,
                 readonly: true,
                 edit: true,
                 topicUser: {},
@@ -130,7 +137,7 @@
                     id: '',
                     username: '',
                     alias: '',
-                    mobile: '',
+                    mobile: '未设置',
                     email: ''
                 },
                 rules: {
@@ -161,14 +168,18 @@
                         { min: 6, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }],
                     renewPass: [{required: true,validator: validatePass2,trigger: 'change'},
                         { min: 6, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }]
-                }
+                },
             };
 
         },
+        // props: ['dialogVisible'],
         created() {
             this.fetchUserInfo()
         },
         methods: {
+            aaaa() {
+                console.log(this.topicUser)
+            },
             fetchUserInfo(){
                 getUserInfoByName(this.$route.params.username).then( response => {
                     const {data} = response
@@ -182,11 +193,11 @@
             handleUpdateUserInfo(formName) {
                 updateUserInfo(this.ruleForm).then(response => {
                     const {data,code,message} = response
-                    console.log(response)
+                    // console.log(response)
                     if(code === 200){
-                        this.$message.success('修改成功！')
+                        this.$message.success('修改成功！如果资料未更新，请手动刷新网页！')
                         setTimeout( () => {
-
+                            this.fetchUserInfo()
                         },1000)
                     }
                 })
@@ -207,7 +218,7 @@
                             // }
                             modifyPass(this.changePassForm).then( response => {
                                 const {code,data,message} = response
-                                console.log(data)
+                                // console.log(data)
                                 if(code === 200){
                                     this.$message.success(message)
                                     setTimeout( () =>{
@@ -221,11 +232,28 @@
                         // }
                     }
                 })
+            },
+            changeAvatar(){
+                this.$refs.avatar.open(this.topicUser)
+                // this.dialogVisible = true
             }
         }
     }
 </script>
 
 <style scoped>
-
+    .avatar:hover {
+        cursor: pointer;
+        transition-duration: 500ms;
+        filter: brightness(70%);
+    }
+    .edit{
+        display: none;
+    }
+    .avatar:hover .edit{
+        top: 30px;
+        left: 35px;
+        position: absolute;
+        display: block;
+    }
 </style>

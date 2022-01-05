@@ -1,55 +1,62 @@
 <template>
     <div>
-        <div class="columns">
+        <div class="columns" >
             <!--个人信息-->
-            <div class="column is-full">
-                <el-card class="box-card" shadow="never">
+            <div class="column" >
+                <el-card class="box-card" shadow="never" >
 <!--                    <div slot="header">简介</div>-->
-                    <div class="media mt-4 ml-5">
-                        <div class="media-left">
-                            <figure class="image is-128x128">
-                                <img :src="`https://gravatar.loli.net/avatar/${topicUser.id}?s=164&d=monsterid`" style="border-radius: 100px;">
-                            </figure>
-                        </div>
-                        <div class="media-content mt-5 ml-6">
-                            <p class="has-text-weight-semibold title is-3">{{topicUser.username}}</p>
-                            <p class="subtitle is-size-5 has-text-grey"> @{{topicUser.alias}}</p>
-                            <div class=" columns is-mobile mt-4">
-                                <div class="column is-2">
-                                    <code>{{topicUser.followCount}}</code>
-                                    <p class="has-text-weight-bold">关注</p>
-                                </div>
-                                <div class="column is-2">
-                                    <code>{{topicUser.topicCount}}</code>
-                                    <p class="has-text-weight-bold">文章数</p>
-                                </div>
-                                <div class="column is-2">
-                                    <code>{{topicUser.followerCount}}</code>
-                                    <p class="has-text-weight-bold">粉丝</p>
+                    <div class="parent" >
+<!--                        <img :src="topicUser.avatar" class="blur is-full" alt="">-->
+                        <!--头像-->
+                        <div class="cover columns media">
+                            <div class="column is-2 is-5-mobile has-text-centered">
+                                <figure class="image is-128x128 media-left">
+                                    <img class="is-4-mobile" :src="topicUser.avatar"  style="border-radius: 100px;">
+                                </figure>
+                            </div>
+                            <!--用户名+粉丝数量-->
+                            <div class="column is-5 is-3-mobile info">
+                                <p class="has-text-weight-semibold title is-mobile is-size-5-mobile">{{topicUser.username}}</p>
+                                <p class="subtitle is-size-5 has-text-grey is-mobile is-size-7-mobile"> @{{topicUser.alias}}</p>
+                                <div class=" columns mt-4 is-mobile">
+                                    <div class="column is-3 is-4-mobile">
+                                        <strong>{{topicUser.followCount}}</strong>
+                                        <p class="has-text-weight-bold is-size-7-mobile">关注</p>
+                                    </div>
+                                    <div class="column is-3 is-4-mobile">
+                                        <strong>{{topicUser.topicCount}}</strong>
+                                        <p class="has-text-weight-bold is-size-7-mobile">文章数</p>
+                                    </div>
+                                    <div class="column is-3 is-4-mobile">
+                                        <strong>{{topicUser.followerCount}}</strong>
+                                        <p class="has-text-weight-bold is-size-7-mobile">粉丝</p>
+                                    </div>
                                 </div>
                             </div>
+                            <!--关注功能-->
+                            <div class="column m-auto is-4-mobile info" v-show="isSelf">
+                                <b-button v-if="isFollow" rounded  class="is-info mr-3 mb-2" @click="handleUnFollow(topicUser.id)">
+                                    <i class="el-icon-check"></i>已关注</b-button>
+
+                                <b-button v-else rounded outlined class="is-info mr-3 mb-2" @click="handleFollow(topicUser.id)">
+                                    <i class="el-icon-plus"></i>关注</b-button>
+
+                                <b-button rounded outlined class="is-info mr-3 mb-2" @click="chat(topicUser.id)">
+                                    <i class="el-icon-chat-line-round"></i>私信</b-button>
+
+                                <el-dropdown>
+                                    <b-button rounded outlined class="is-info is-hover">
+                                        <i class="el-icon-more"></i>
+                                    </b-button>
+                                    <el-dropdown-menu slot="dropdown">
+                                        <el-dropdown-item>加入黑名单</el-dropdown-item>
+                                        <el-dropdown-item>举报</el-dropdown-item>
+                                    </el-dropdown-menu>
+                                </el-dropdown>
+
+                            </div>
                         </div>
-                        <div class="mt-6 mr-6">
-                            <b-button v-if="isFollow" rounded  class="is-info mr-3" @click="handleUnFollow(topicUser.id)">
-                                <i class="el-icon-check"></i>已关注</b-button>
 
-                            <b-button v-else rounded outlined class="is-info mr-3" @click="handleFollow(topicUser.id)">
-                                <i class="el-icon-plus"></i>关注</b-button>
-
-                            <b-button rounded outlined class="is-info mr-3" @click="chat(topicUser.id)">
-                                <i class="el-icon-chat-line-round"></i>私信</b-button>
-
-                            <el-dropdown>
-                                <b-button rounded outlined class="is-info is-hover">
-                                    <i class="el-icon-more"></i>
-                                </b-button>
-                                <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item>加入黑名单</el-dropdown-item>
-                                    <el-dropdown-item>举报</el-dropdown-item>
-                                </el-dropdown-menu>
-                            </el-dropdown>
-
-                        </div>
                     </div>
                 </el-card>
             </div>
@@ -159,7 +166,8 @@
                     total: 0,
                     current: 1
                 },
-                isFollow: false
+                isFollow: false,
+                isSelf: true
             }
         },
         computed: {
@@ -239,5 +247,36 @@
 </script>
 
 <style scoped>
+    /*.avatar:hover {*/
+    /*    cursor: pointer;*/
+    /*    transition-duration: 500ms;*/
+    /*    filter: brightness(70%);*/
+    /*}*/
+    /*.edit{*/
+    /*    display: none;*/
+    /*}*/
+    /*.avatar:hover .edit{*/
+    /*    top: 50px;*/
+    /*    left: 50px;*/
+    /*    position: absolute;*/
+    /*    display: block;*/
+    /*}*/
+    .blur{
+        /*z-index: 3;*/
+        position: absolute;
+        top:1.5%;
+        left: -0.1%;
+        right: 1%;
+        width:101%;
+        /*margin: -10px;*/
+        max-width: 1360px;
+        max-height: 180px;
+        height: 100%;
+        object-fit:cover;
+        -webkit-filter: blur(20px); /* Chrome, Opera */
+    }
+    .info{
+        z-index: 10;
+    }
 
 </style>

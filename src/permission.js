@@ -1,6 +1,7 @@
 import router from "./router";
 import store from "./store";
 import './api/auth/auth'
+import { Message, MessageBox } from 'element-ui'
 
 
 import NProgress from 'nprogress'
@@ -33,6 +34,12 @@ router.beforeEach(async (to,from,next) => {
         next()
     }
     else{
+        Message({
+            showClose: true,
+            message: '请先登录账户！' || 'Error',
+            type: 'error',
+            duration: 3 * 1000
+        })
         next('/login')
     }
 })

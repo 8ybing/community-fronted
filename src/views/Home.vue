@@ -12,6 +12,10 @@
     </div>
     <div class="columns">
       <div class="column is-three-quarters">
+        <el-card class="is-hidden-mobile" shadow="never ">
+          <Banner></Banner>
+        </el-card>
+
         <TopicList></TopicList>
       </div>
       <div class="column">
@@ -25,10 +29,11 @@
   import {getBillBoard} from "../api/billboard";
   import CardBar from "./card/CardBar";
   import PostList from "./post/Index";
+  import Banner from "./Banner";
 
   export default {
   name: 'Home',
-    components:{CardBar,TopicList: PostList},
+    components:{CardBar,TopicList: PostList,Banner},
   data(){
     return{
       billboard: {

@@ -6,6 +6,10 @@ import store from './store'
 //buefy
 import Buefy from "buefy";
 import 'buefy/dist/buefy.css'
+
+//cropper
+import VueCropper from 'vue-cropper'
+Vue.use(VueCropper)
 //elementUI
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -19,6 +23,10 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/zh-cn'
 const dayjs = require('dayjs')
 
+import PeachCropper from 'peach-cropper'
+Vue.use(PeachCropper)
+
+//calendar
 
 //相对时间插件
 dayjs.extend(relativeTime)

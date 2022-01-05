@@ -34,3 +34,13 @@ export function modifyPass(paramsMap) {
         }
     })
 }
+
+//修改用户头像
+export function changeAvatar(formdata) {
+    return request({
+        url: '/ums/user/updateImage',
+        method: 'post',
+        headers: {'Content-Type': 'multipart/form-data'},
+        data: formdata,
+    })
+}

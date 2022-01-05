@@ -44,14 +44,7 @@
                     </b-field>
                 </b-navbar-item>
 
-                <b-navbar-item tag="div">
-                    <b-switch
-                            v-model="darkMode"
-                            passive-type="is-warning"
-                            type="is-dark">
-                        {{ darkMode ? "夜" : "日" }}
-                    </b-switch>
-                </b-navbar-item>
+
 
                 <b-navbar-item
                         v-if="token == null || token === ''"
@@ -70,9 +63,8 @@
                     </div>
                 </b-navbar-item>
 
-                <b-navbar-dropdown
-                        v-else
-                        :label="user.username">
+                <b-navbar-dropdown v-else :label="user.alias" >
+
                     <b-navbar-item
                             tag="router-link"
                             :to="{ path: `/user/${user.username}/home` }">🧘 个人中心
@@ -89,6 +81,16 @@
                             @click="logout"> 👋 退出登录
                     </b-navbar-item>
                 </b-navbar-dropdown>
+
+                <!--黑夜模式-->
+                <b-navbar-item tag="div">
+                    <b-switch
+                            v-model="darkMode"
+                            passive-type="is-warning"
+                            type="is-dark">
+                        {{ darkMode ? "🌙" : "☀" }}
+                    </b-switch>
+                </b-navbar-item>
             </template>
         </b-navbar>
     </header>
@@ -104,9 +106,9 @@
         data() {
             return {
                 logoUrl: require('@/assets/logo.png'),
-                Img: require('@/assets/image/YQWL2.png'),
+                Img: require('@/assets/image/Jhonny.png'),
                 searchKey: '',
-                darkMode: false
+                darkMode: false,
             }
         },
         computed: {
